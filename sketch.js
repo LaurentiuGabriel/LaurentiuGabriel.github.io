@@ -1,5 +1,5 @@
 var s;
-var scl=10;
+var scl=9;
 var food;
 
 function setup(){
