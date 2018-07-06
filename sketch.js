@@ -1,5 +1,5 @@
 var s;
-var scl=9;
+var scl=8;
 var food;
 
 function setup(){
@@ -30,14 +30,14 @@ fill(255,0,100);
 rect(food.x, food.y, scl, scl);
 }
 function keyPressed(){
-if(keyCode ===UP_ARROW){
+if(keyCode ===87){
 s.dir(0,-1);
-}else if(keyCode===DOWN_ARROW){
+}else if(keyCode===83){
 s.dir(0, 1);
 }
-else if(keyCode===RIGHT_ARROW){
+else if(keyCode===68){
 s.dir(1, 0);
 }
-else if(keyCode===LEFT_ARROW){
+else if(keyCode===65){
 s.dir(-1, 0);
 }}
