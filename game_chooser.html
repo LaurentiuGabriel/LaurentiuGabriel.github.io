@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.9/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.9/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.9/addons/p5.sound.min.js"></script>
+ 
+ </head>
+<body>
+<style>
+html, body {
+  text-align: center;
+  padding-top: 40px;
+  
+  -webkit-perspective: 500px;
+     -moz-perspective: 500px;
+      -ms-perspective: 500px;
+          perspective: 500px;
+}
+
+button.Snake {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  outline: 0;
+  -webkit-appearance: none;
+}
+button.Snake {
+  display: inline-block;
+  position: absolute;
+  margin-left: -59.5px;
+  margin-top: 250px;
+  padding: 5px 28px;
+  top: 0;
+  font-size: 25px;
+  font-family: "Open Sans", Helvetica;
+  border-radius: 4px;
+  border-bottom: 1px solid rgba( 28, 227, 125, 0.5 );
+  background: rgba( 22, 230, 137, 1 );
+  color: #fff;
+  box-shadow: 0px 0px 0px rgba( 15, 165, 60, 0.1 );
+  
+  -webkit-transform: translateZ(0);
+     -moz-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+          transform: translateZ(0);
+  
+  -webkit-transition: all 0.2s ease;
+     -moz-transition: all 0.2s ease;
+      -ms-transition: all 0.2s ease;
+          transition: all 0.2s ease;
+}
+
+button.Snake:hover {
+  top: -10px;
+  box-shadow: 0px 10px 10px rgba( 15, 165, 60, 0.2 );
+  
+  -webkit-transform: rotateX(20deg);
+     -moz-transform: rotateX(20deg);
+      -ms-transform: rotateX(20deg);
+          transform: rotateX(20deg);
+}
+
+button.TicTacToe:active {
+  top: 0px;
+  box-shadow: 0px 0px 0px rgba( 15, 165, 60, 0.0 );
+  background: rgba( 20, 224, 133, 1 );
+}
+
+button.TicTacToe {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  outline: 0;
+  -webkit-appearance: none;
+}
+button.TicTacToe {
+  display: inline-block;
+  position: absolute;
+  margin-left: -80px;
+  margin-top: 150px;
+    padding: 5px 28px;
+  top: 0;
+  font-size: 25px;
+  font-family: "Open Sans", Helvetica;
+  border-radius: 4px;
+  border-bottom: 1px solid rgba( 28, 227, 125, 0.5 );
+  background: rgba( 22, 230, 137, 1 );
+  color: #fff;
+  box-shadow: 0px 0px 0px rgba( 15, 165, 60, 0.1 );
+  
+  -webkit-transform: translateZ(0);
+     -moz-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+          transform: translateZ(0);
+  
+  -webkit-transition: all 0.2s ease;
+     -moz-transition: all 0.2s ease;
+      -ms-transition: all 0.2s ease;
+          transition: all 0.2s ease;
+}
+
+button.TicTacToe:hover {
+  top: -10px;
+  box-shadow: 0px 10px 10px rgba( 15, 165, 60, 0.2 );
+  
+  -webkit-transform: rotateX(20deg);
+     -moz-transform: rotateX(20deg);
+      -ms-transform: rotateX(20deg);
+          transform: rotateX(20deg);
+}
+
+button.TicTacToe:active {
+  top: 0px;
+  box-shadow: 0px 0px 0px rgba( 15, 165, 60, 0.0 );
+  background: rgba( 20, 224, 133, 1 );
+}
+p.font {
+font-size: 30px;
+color: white;
+font-family: Arial, Helvetica, sans-serif;
+font-style: normal;
+text-align: center;
+}
+</style>
+<p class='font'>
+Which game you want to play?
+</p>
+<button class='Snake' onclick="location.href='snake_game.html';">Snake</button>
+<button class='TicTacToe' onclick="location.href='tictactoe.html';">TicTacToe</button>
+<style>
+  body
+ {
+background-image: url('img/ps.jpg');
+background-attachment: fixed;
+background-repeat: no-repeat;
+}
+</style>
+
+</body>
+
+</html>

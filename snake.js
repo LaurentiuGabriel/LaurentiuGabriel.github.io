@@ -32,7 +32,7 @@ console.log('starting over');
 window.alert("Game Over!");
 this.total=0;
 this.tail=[];
-
+window.location.replace("game_chooser.html")
 
 
 createCanvas(310, 422);

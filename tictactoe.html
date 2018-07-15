@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>TicTacToe</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+</head>
+<body>
+<div class="container">
+  <div id="choiceDiv">
+    <p>Choose either X or O: 
+      <form action="">
+        <input type="radio" name="xChoice" value="X" id="xRadio"> X
+        <input type="radio" name="oChoice" value="O" id="oRadio"> O
+      </form>
+    </p>
+  </div>
+  <p class="turn">Turn: <span class="turnText"></span></p>
+  <div id="board">
+    <div id="oneOne" class="box"></div><div id="oneTwo" class="box"></div><div id="oneThree" class="box"></div>
+    <div id="twoOne" class="box"></div><div id="twoTwo" class="box"></div><div id="twoThree" class="box"></div>
+    <div id="threeOne" class="box"></div><div id="threeTwo" class="box"></div><div id="threeThree" class="box"></div>
+    
+  </div>
+  <p class="score">X wins: <span id="xWins">0</span> | Ties: <span id="ties">0</span> | O wins: <span id="oWins">0</span></p>
+  <p id="resetText">Reset</p>
+  <div id="home_button" onclick="location.href='game_chooser.html';"><div id="home_button2" onclick="location.href='game_chooser.html';"></button></button>
+ 
+
+</div>
+
+<style>
+  body {
+    min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    margin: 0;
+    background: rgb(217, 235, 116);
+  }
+  .container {
+    max-width: 130px;
+    max-height: 230px;
+    background: rgba(34, 34, 34, 0.85);
+    box-shadow: 0 0 0 5px rgba(0,0,0,0.1);
+    padding: 50px; 
+    border:1px solid #fafafa;
+    text-align: center;
+    color: #fafafa;
+  }
+  #choiceDiv > p {
+    margin-top: 0;
+  }
+  .turn {
+    margin: 0 0 5 0;
+  }
+  .score {
+    margin: 5 0 0 0;
+  }
+  #board > div {
+    display: inline-block;
+    margin: 5px;
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    vertical-align: middle;
+    color: rgb(119, 116, 146);
+    background: rgb(25,75,80);
+  }
+  #resetText {
+    display: none;
+    cursor: pointer;
+    margin-bottom: 0;
+    color: rgb(0,0,0);
+  }
+</style>
+
+<script>
+  const boxes = document.querySelectorAll('.box');
+  let turn = document.querySelector('.turnText');
+  const res = document.getElementById('resetText');
+  let player;
+  turn.innerHTML = 'X';
+  let winsX = 0;
+  let winsO = 0;
+  let tie = 0;
+  let filled = 0;
+  let isAiTurn = true;
+  let emptyBoxes = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+  let allowChoice = true;
+  // Side chooser
+  function chooser() {
+    if (allowChoice) {
+      allowChoice = false;
+      player = 1;
+      isAiTurn = true;
+      if (this.value === 'O') {
+        isAiTurn = true;
+        runAi();
+      }
+    } else {
+      return;
+    }
+  }
+  document.getElementById('xRadio').addEventListener('click', chooser);
+  document.getElementById('oRadio').addEventListener('click', chooser);
+  // Check win status
+  const winArray = [['oneOne', 'oneTwo', 'oneThree'], ['twoOne', 'twoTwo', 'twoThree'], ['threeOne', 'threeTwo', 'threeThree'], ['oneOne', 'twoOne', 'threeOne'], ['oneTwo', 'twoTwo', 'threeTwo'], ['oneThree', 'twoThree', 'threeThree'], ['oneOne', 'twoTwo', 'threeThree'], ['threeOne', 'twoTwo', 'oneThree']];
+  function checkWin(elem) {
+    for (var i = 0; i < winArray.length; i++) {
+      if (document.getElementById(winArray[i][0]).innerHTML === elem && document.getElementById(winArray[i][1]).innerHTML === elem && document.getElementById(winArray[i][2]).innerHTML === elem) {
+        filled = 10;
+        turn.innerHTML = `${elem} wins!`;
+        res.style.display = "inherit";
+        if (player === 0) {
+          winsX++;
+          document.getElementById('xWins').innerHTML = winsX;
+        } else {
+          winsO++;
+          document.getElementById('oWins').innerHTML = winsO;
+        }
+      }
+    }
+    if (filled === 9) {
+      turn.innerHTML = "It's a draw!";
+      tie++;
+      document.getElementById('ties').innerHTML = tie;
+      res.style.display = "inherit";
+    }
+  }
+  // Display a character
+  let availableBoxes = ['oneOne', 'oneTwo', 'oneThree', 'twoOne', 'twoTwo', 'twoThree', 'threeOne', 'threeTwo', 'threeThree'];
+  function displayChar() {
+    if (player === undefined) {
+      console.log('please select');
+      document.getElementById('choiceDiv').style.color = '#FF5252';
+      return;
+    }
+    if (this.innerHTML !== 'X' && this.innerHTML !== 'O') {
+      filled++;
+      if (filled <= 9) {
+        if (player === 1) {
+          this.innerHTML = 'X';
+          player = 0;
+          turn.innerHTML = 'O';
+          let index = availableBoxes.indexOf(this.id);
+          availableBoxes.splice(index, 1);
+          checkWin('X');
+          runAi();
+        } else {
+          this.innerHTML = 'O';
+          player = 1;
+          turn.innerHTML = 'X';
+          let index = availableBoxes.indexOf(this.id);
+          availableBoxes.splice(index, 1);
+          checkWin('O');
+          runAi();
+        }
+      }
+    }
+  }
+  // Reset functionality
+  function reset() {
+    boxes.forEach(box => box.innerHTML = "");
+    filled = 0;
+    player = undefined;
+    turn.innerHTML = 'X';
+    res.style.display = "none"; 
+    availableBoxes = ['oneOne', 'oneTwo', 'oneThree', 'twoOne', 'twoTwo', 'twoThree', 'threeOne', 'threeTwo', 'threeThree'];
+    document.getElementById("xRadio").checked = false;
+    document.getElementById("oRadio").checked = false;
+    allowChoice = true;
+    document.getElementById('choiceDiv').style.color = '#FAFAFA';
+  }
+  res.addEventListener('click', reset);
+  // AI functionality
+  function aiMove() {
+    if (availableBoxes.length > 0) {
+      let rand = availableBoxes[Math.floor(Math.random() * availableBoxes.length)];
+      document.getElementById(rand).click();
+    } else {
+      return;
+    }
+  }
+  function runAi() {
+    if (isAiTurn === true) {
+      isAiTurn = false;
+      aiMove();
+    } else {
+      isAiTurn = true;
+    }
+  }
+  boxes.forEach(box => box.addEventListener('click', displayChar));
+</script>
+
+
+<style>
+#home_button{
+  margin:50px;
+  width:50px;
+  height:50px;
+  background-color:#111;
+  -moz-border-radius:100%;
+  -khtml-border-radius:100%;
+  -webkit-border-radius:100%;
+  border-radius:100%;
+  position:center;
+  top:300px;
+  right:600px;
+  cursor:pointer
+}
+#home_button2{
+  width:15px;
+  height:15px;
+  -moz-border-radius:30%;
+  -khtml-border-radius:30%;
+  -webkit-border-radius:30%;
+  border-radius:30%;
+  border:2px solid #fff;
+  position:relative;
+  top:15px;
+  right:-15.5px;
+  cursor:pointer
+}
+#home_button:hover{
+  opacity:0.95
+}
+
+</style>
+
+</body>
+</html>
