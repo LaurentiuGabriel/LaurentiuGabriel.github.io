@@ -720,7 +720,7 @@ var requestOptions = {
   Credential: 'omit'
 };
 
-fetch("http://3.133.97.38:8080/auth", requestOptions)
+fetch("https://3.133.97.38:8443/auth", requestOptions)
     .then(response => response.text())
     .then(result => httpPost(question, result)) 
     .catch(error => console.log('error', error)); 
