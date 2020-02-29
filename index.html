@@ -40,6 +40,20 @@
   </head>
 
   <body id="page-top">
+    <button class="open-button" onclick="openForm()">Chat with Laurentiu</button>
+    <div class="chat-popup" id="myForm">
+      <div class="form-container">
+        <h3>Chat</h3>
+    
+        <div id="chatHistory"></div>
+        <label for="msg"><b>Message</b></label>
+    
+        <textarea placeholder="Type message.." id="textId" name="msg" required></textarea>
+    
+        <button type="submit" class="btn" onclick="sendMessage()">Send</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+      </div>
+    </div>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">
@@ -97,22 +111,22 @@
           <h1 class="mb-0">Laurentiu
             <span class="text-primary">Raducu</span>
           </h1>
-          <div class="subheading mb-5">Bucharest, Romania, +40760299270
+          <div class="subheading mb-5">Zürich, Switzerland, +41787266341
             <a href="mailto:name@email.com">laurentiu.raducu@gmail.com</a>
           </div>
           <p class="mb-5">
-		<ul>2+ year experience in quality assurance, test design, test planning and test implementation.</ul>
+		<ul>4+ years experience in quality assurance, test design, test planning and test implementation.</ul>
 		<ul>Experience in using bug-tracking and test documentation tools.</ul>
 
 <ul>Practical knowledge in applying black box testing techniques, as well as in performing acceptance, regression, exploratory, performance and load balance testing.</ul>
 
 <ul>Expertise in developing automation scripts using powershell and batch scripting languages.</ul>
 
-<ul> +1 year experience in working with Selenium and Serenity libraries for automation testing.</ul>
+<ul> +3 years experience in working with Selenium and Serenity libraries for automation testing.</ul>
 
 <ul>Excellent problem-solving skills.</ul>
 
-<ul>1 year experience in developing software as part of my personal projects. Track record available here: <a href=https://github.com/LaurentiuGabriel>Github</a>. Languages used: C++, Python, Java and VB.NET.</ul></p>
+<ul>3 years experience in developing software as part of my personal and freelance projects. Track record available here: <a href=https://github.com/LaurentiuGabriel>Github</a>. Languages used: C++, Python, Java and VB.NET.</ul></p>
           <ul class="list-inline list-social-icons mb-0">
             <li class="list-inline-item">
               <a href="https://www.linkedin.com/in/laurentiur/">
@@ -157,6 +171,23 @@
     <div class="resume-item d-flex flex-column flex-md-row mb-5">
             <div class="resume-content mr-auto">
               <h3 class="mb-0">Automation Quality Assurance Engineer</h3>
+              <div class="subheading mb-3">UBS AG, Zürich</div>
+              <p>
+		<ul> Developing an automation framework to reduce manual test execution.  </ul>
+		<ul> Creating scripts for automating repetitive tasks.  </ul>
+		<ul> Working with the project stakeholders to define automation priorities.  </ul>
+		<ul> Working closely with subject matter experts for defining test plans and approaches for current releases. </ul>
+
+	</p>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">February 2020 - Present</span>
+            </div>
+          </div>
+
+          <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">Automation Quality Assurance Engineer</h3>
               <div class="subheading mb-3">London Stock Exchange Group, Bucharest</div>
               <p>
 		<ul> Developing and maintaining the test automation framework of Unavista platform and all its reporting solutions. Currently, the language used is Java and the technologies used are Selenium, Jdbc, Jetty, Jasper Reports, Junit.  </ul>
@@ -168,7 +199,7 @@
 	</p>
             </div>
             <div class="resume-date text-md-right">
-              <span class="text-primary">November 2018 - Present</span>
+              <span class="text-primary">November 2018 - February 2020</span>
             </div>
           </div>
 
@@ -537,6 +568,164 @@
 	  </section>
 
     </div>
+
+    
+
+    <style>
+      body {font-family: Arial, Helvetica, sans-serif;}
+      * {box-sizing: border-box;}
+      
+      /* Button used to open the chat form - fixed at the bottom of the page */
+      .open-button {
+        background-color: #555;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 23px;
+        right: 28px;
+        width: 280px;
+      }
+      
+      /* The popup chat - hidden by default */
+      .chat-popup {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        right: 15px;
+        border: 3px solid #f1f1f1;
+        z-index: 9;
+      }
+      
+      /* Add styles to the form container */
+      .form-container {
+        max-width: 300px;
+        padding: 10px;
+        background-color: white;
+      }
+      
+      /* Full-width textarea */
+      .form-container textarea {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #f1f1f1;
+        resize: none;
+        min-height: 50px;
+      }
+      
+      /* When the textarea gets focus, do something */
+      .form-container textarea:focus {
+        background-color: #ddd;
+        outline: none;
+      }
+      
+      /* Set a style for the submit/send button */
+      .form-container .btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom:10px;
+        opacity: 0.8;
+      }
+      
+      #chatHistory {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #f1f1f1;
+        resize: none;
+        min-height: 50px;
+      }
+      
+      /* Add a red background color to the cancel button */
+      .form-container .cancel {
+        background-color: red;
+      }
+      
+      /* Add some hover effects to buttons */
+      .form-container .btn:hover, .open-button:hover {
+        opacity: 1;
+      }
+      </style>
+
+<script>
+  function openForm() {
+    document.getElementById("myForm").style.display = "block";
+  }
+  
+  function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+  }
+  
+  function sendMessage() {
+    var msg = document.getElementById("textId").value;
+    var url = "https://directline.botframework.com/v3/directline/conversations/Ky8w6hTB7K2CWsLkUaiDHI-h?watermark=0";
+
+    getRand(msg);
+  }
+
+  function addResponse(response){
+      document.getElementById("textId").value = "";
+      document.getElementById("chatHistory").innerHTML = response;
+  }
+  
+  function httpPost(question, rand){
+    var myHeaders = new Headers();
+    console.log(rand);
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer " + rand);
+    var raw = JSON.stringify({"queryInput":{"text":{"text": question ,"languageCode":"en"}},"queryParams":{"timeZone":"Europe/Paris"}});
+    console.log(raw);
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+fetch("https://dialogflow.googleapis.com/v2/projects/lauragent-yojkkh/agent/sessions/1:detectIntent", requestOptions)
+  .then(response => response.json())
+  .then(data => addResponse(data.queryResult.fulfillmentMessages[0].text.text))
+  .catch(error => console.log('error', error));
+  }
+  
+  function httpGet(url){
+    var xmlHttp = new XMLHttpRequest();
+    var key = "ya29.c.Ko8BwAes1DHikp5FC9BATMZWPH72TorXFHPkGWRnK3D6l5ZaLUJZGvt2LPhvevU4xo4bDrG7N8AaP3pUicW-l1SWYbKKitbXmHH0XOVP0__zVHjJTsL2SjBqR6uO-hPEt97kxSI2VXMJL8u48vuUTiH76pageGc6bPzMKyppD9tUAdBonowpM5q5cg4gWuC9ySc"
+      xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+      xmlHttp.send(key);
+      return xmlHttp.responseText;
+  }
+
+  function getRand(question){
+    var myHeaders = new Headers();
+myHeaders.append("Accept", "*/*");
+myHeaders.append("Host", "3.133.97.38:8080");
+myHeaders.append("Accept", "*/*");
+myHeaders.append("Connection", "keep-alive");
+myHeaders.append("Cache-Control", "no-cache");
+
+var requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+  redirect: 'follow',
+  Credential: 'omit'
+};
+
+fetch("http://3.133.97.38:8080/auth", requestOptions)
+    .then(response => response.text())
+    .then(result => httpPost(question, result)) 
+    .catch(error => console.log('error', error)); 
+}
+  </script>
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
