@@ -1,6 +1,7 @@
 var mainState = {
  preload: function() { 
     // Load the plane sprite
+	alert("Drive the plane through the obstacles. Use SPACEBAR key to navigate");
     game.load.image('plane', 'assets/plane.png'); 
     game.load.image('pipe', 'assets/pipe.png');
 },
@@ -36,6 +37,7 @@ jump: function() {
 },
 
 restartGame: function() {
+	alert("Plane Destroyed");
     game.state.start('main');
 },
 addOnePipe: function(x, y) {
