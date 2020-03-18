@@ -739,7 +739,7 @@ fetch("https://3.133.97.38:8443/auth", requestOptions)
 
 <script>
 	var GoogleAuth;
-  var SCOPE = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+  var SCOPE = 'https://www.googleapis.com/auth/dialogflow';
   function handleClientLoad() {
     // Load the API's client and auth2 modules.
     // Call the initClient function after the modules load.
@@ -749,7 +749,7 @@ fetch("https://3.133.97.38:8443/auth", requestOptions)
   function initClient() {
     // Retrieve the discovery document for version 3 of Google Drive API.
     // In practice, your app can retrieve one or more discovery documents.
-    var discoveryUrl = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
+    var discoveryUrl = 'https://dialogflow.googleapis.com/$discovery/rest?version=v2';
 
     // Initialize the gapi.client object, which app uses to make API requests.
     // Get API key and client ID from API Console.
