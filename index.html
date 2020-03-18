@@ -781,9 +781,11 @@ fetch("https://3.133.97.38:8443/auth", requestOptions)
 function handleAuthClick() {
     if (GoogleAuth.isSignedIn.get()) {
       // User is authorized and has clicked "Sign out" button.
+      console.log("signing out");
       GoogleAuth.signOut();
     } else {
       // User is not signed in. Start Google auth flow.
+      console.log("signing in");
       GoogleAuth.signIn();
     }
   }
