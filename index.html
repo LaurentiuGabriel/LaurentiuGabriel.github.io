@@ -665,7 +665,6 @@
 <script>
   function openForm() {
     document.getElementById("myForm").style.display = "block";
-    handleAuthClick();
   }
   
   function closeForm() {
@@ -727,10 +726,7 @@ var requestOptions = {
   Credential: 'omit'
 };
 
-fetch("https://3.133.97.38:8443/auth", requestOptions)
-    .then(response => response.text())
-    .then(result => httpPost(question, result)) 
-    .catch(error => console.log('error', error)); 
+httpPost(question, "ya29.c.Ko8BwwdOWpVtne5cs0IXbYEaprzAUWZGmjTft9TitPOYDNZlL7sIaj7IOTLpD-dMUFAdf1MPxZv_qmzqT5sQpFhKFzlOGDgHRuwGif6kVt3-zwxs549Qg7YlegdGf3zb1C_j2IZxAaw9EvcnPGTAiCnO0EjKN2YhqRRarEKYBZxzeBGYJKbAIGQuPQ1d-MF4uRE")
 }
   </script>
 
@@ -762,8 +758,8 @@ fetch("https://3.133.97.38:8443/auth", requestOptions)
     // Get API key and client ID from API Console.
     // 'scope' field specifies space-delimited list of access scopes.
     gapi.client.init({
-        'apiKey': '5VYBE0DkXgixEXh2Aqe7U7jH',
-        'clientId': '881598055333-ekjseaf5cq8dkf3a9a6s2c122458rnnv.apps.googleusercontent.com',
+        'apiKey': '5VYBE0DkasqokdowkodqwiodXwq8eqhasjkdajH',
+        'clientId': '8asdasd812e71278dhdsakjdlkas.com',
         'discoveryDocs': [discoveryUrl],
         'scope': SCOPE
     }).then(function () {
@@ -776,10 +772,9 @@ fetch("https://3.133.97.38:8443/auth", requestOptions)
       var user = GoogleAuth.currentUser.get();
       
       setSigninStatus();
-  		$('#openChat').click(function() {
-        handleAuthClick();
+  		$('#openCha').click(function() {
       });
-      $('#closeChat').click(function() {
+      $('#closeCha').click(function() {
         revokeAccess();
       });
     });
