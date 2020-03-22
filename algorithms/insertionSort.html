@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Insertion Sort</title>
+</head>
+<body>
+<h1>
+	Insertion Sort
+</h1>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package iteration;
+
+public interface Iterable {
+    public Iterator iterator();
+}
+
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+import iteration.Iterable;
+
+public interface List extends Iterable {
+    public void insert(int index, Object value)
+            throws IndexOutOfBoundsException;
+    public void add(Object value);
+    public Object delete(int index) throws IndexOutOfBoundsException;
+    public boolean delete(Object value);
+    public void clear();
+    public Object set(int index, Object value)
+            throws IndexOutOfBoundsException;
+    public Object get(int index) throws IndexOutOfBoundsException;
+    public int indexOf(Object value);
+    public boolean contains(Object value);
+    public int size();
+    public boolean isEmpty();
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package sorting;
+
+import dataStructures.List;
+
+public interface ListSorter {
+    public List sort(List list);
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+import iteration.Iterator;
+import iteration.IteratorOutOfBoundsException;
+
+public class LinkedList implements List {
+    private final Element _headAndTail = new Element(null);
+    private int _size;
+
+    public LinkedList() {
+        clear();
+    }
+
+    private static final class Element {
+        private Object _value;
+        private Element _previous;
+        private Element _next;
+
+        public Element(Object value) {
+            setValue(value);
+        }
+
+        public void setValue(Object value) {
+            _value = value;
+        }
+
+        public Object getValue() {
+            return _value;
+        }
+
+        public Element getPrevious() {
+            return _previous;
+        }
+
+        public void setPrevious(Element previous) {
+            assert previous != null : &quot;previous can&#8217;t be null&quot;;
+            _previous = previous;
+        }
+
+        public Element getNext() {
+            return _next;
+        }
+
+        public void setNext(Element next) {
+            assert next != null : &quot;next can&#8217;t be null&quot;;
+            _next = next;
+        }
+
+        public void attachBefore(Element next) {
+            assert next != null : &quot;next can&#8217;t be null&quot;;
+            Element previous = next.getPrevious();
+            setNext(next);
+            setPrevious(previous);
+            next.setPrevious(this);
+            previous.setNext(this);
+        }
+
+        public void detach() {
+            _previous.setNext(_next);
+            _next.setPrevious(_previous);
+        }
+    }
+
+    public void insert(int index, Object value)
+            throws IndexOutOfBoundsException {
+        assert value != null : &quot;value can&#8217;t be null&quot;;
+        if (index &lt; 0 &#124;&#124; index &gt; _size) {
+            throw new IndexOutOfBoundsException();
+        }
+        Element element = new Element(value);
+        element.attachBefore(getElement(index));
+        ++_size;
+    }
+    private Element getElement(int index) {
+        Element element = _headAndTail.getNext();
+        for (int i = index; i &gt; 0; --i) {
+            element = element.getNext();
+        }
+        return element;
+    }
+
+    public void add(Object value) {
+        insert(_size, value);
+    }
+
+    public Object get(int index) throws IndexOutOfBoundsException {
+        checkOutOfBounds(index);
+        return getElement(index).getValue();
+    }
+    public Object set(int index, Object value)
+            throws IndexOutOfBoundsException {
+        assert value != null : &quot;value can&#8217;t be null&quot;;
+        checkOutOfBounds(index);
+        Element element = getElement(index);
+        Object oldValue = element.getValue();
+        element.setValue(value);
+        return oldValue;
+    }
+
+    private void checkOutOfBounds(int index) {
+        if (isOutOfBounds(index)) {
+            throw new IndexOutOfBoundsException();
+        }
+    }
+
+    private boolean isOutOfBounds(int index) {
+        return index &lt; 0 &#124;&#124; index &gt;= _size;
+    }
+
+    public int indexOf(Object value) {
+        assert value != null : &quot;value can&#8217;t be null&quot;;
+        int index = 0;
+        for (Element e = _headAndTail.getNext();
+             e != _headAndTail;
+             e = e.getNext()) {
+            if (value.equals(e.getValue())) {
+                return index;
+            }
+            ++index;
+        }
+        return -1;
+    }
+
+    public boolean contains(Object value) {
+        return indexOf(value) != -1;
+    }
+
+    public Object delete(int index) throws IndexOutOfBoundsException {
+        checkOutOfBounds(index);
+        Element element = getElement(index);
+        element.detach();
+        --_size;
+        return element.getValue();
+    }
+
+    public boolean delete(Object value) {
+        assert value != null : &quot;value can&#8217;t be null&quot;;
+        for (Element e = _headAndTail.getNext();
+             e != _headAndTail;
+             e = e.getNext()) {
+            if (value.equals(e.getValue())) {
+                e.detach();
+                --_size;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private final class ValueIterator implements Iterator {
+        private Element _current = _headAndTail;
+        public void first() {
+            _current = _headAndTail.getNext();
+        }
+        public void last() {
+            _current = _headAndTail.getPrevious();
+        }
+        public boolean isDone() {
+            return _current == _headAndTail;
+        }
+        public void next() {
+            _current = _current.getNext();
+        }
+        public void previous() {
+            _current = _current.getPrevious();
+        }
+        public Object current() throws IteratorOutOfBoundsException {
+            if (isDone()) {
+                throw new IteratorOutOfBoundsException();
+            }
+            return _current.getValue();
+        }
+    }
+
+    public Iterator iterator() {
+        return new ValueIterator();
+    }
+
+    public int size() {
+        return _size;
+    }
+
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    public void clear() {
+        _headAndTail.setPrevious(_headAndTail);
+        _headAndTail.setNext(_headAndTail);
+        _size = 0;
+    }
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package iteration;
+
+public class IteratorOutOfBoundsException extends RuntimeException {
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package sorting;
+
+import dataStructures.LinkedList;
+import dataStructures.List;
+import iteration.Iterator;
+
+public class InsertionSortListSorter implements ListSorter {
+    private final Comparator _comparator;
+    public InsertionSortListSorter(Comparator comparator) {
+        assert comparator != null : &quot;comparator cannot be null&quot;;
+        _comparator = comparator;
+    }
+
+    public List sort(List list) {
+        assert list != null : &quot;list cannot be null&quot;;
+        final List result = new LinkedList();
+        Iterator it = list.iterator();
+        for (it.first(); !it.isDone(); it.next()) {
+            int slot = result.size();
+            while (slot &gt; 0) {
+                if (_comparator.compare(it.current(), result.get(slot - 1)) &gt;= 0) {
+                    break;
+                }
+                --slot;
+            }
+            result.insert(slot, it.current());
+        }
+        return result;
+    }
+}
+
+</code></pre>
+</body>
+</html>

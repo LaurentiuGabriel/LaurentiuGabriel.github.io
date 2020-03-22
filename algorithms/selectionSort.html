@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shell Sort</title>
+</head>
+<body>
+<h1>
+    Selection Sort
+</h1>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package iteration;
+
+public interface Iterable {
+    public Iterator iterator();
+}
+
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+import iteration.Iterable;
+
+public interface List extends Iterable {
+    public void insert(int index, Object value)
+            throws IndexOutOfBoundsException;
+    public void add(Object value);
+    public Object delete(int index) throws IndexOutOfBoundsException;
+    public boolean delete(Object value);
+    public void clear();
+    public Object set(int index, Object value)
+            throws IndexOutOfBoundsException;
+    public Object get(int index) throws IndexOutOfBoundsException;
+    public int indexOf(Object value);
+    public boolean contains(Object value);
+    public int size();
+    public boolean isEmpty();
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package sorting;
+
+import dataStructures.List;
+
+public interface ListSorter {
+    public List sort(List list);
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>
+Package sorting;
+
+import dataStructures.List;
+
+public class SelectionSortListSorter implements ListSorter {
+    private final Comparator _comparator;
+
+    public SelectionSortListSorter(Comparator comparator) {
+        assert comparator != null : &quot;comparator cannot be null&quot;;
+        _comparator = comparator;
+    }
+
+    public List sort(List list) {
+        assert list != null : &quot;list cannot be null&quot;;
+        int size = list.size();
+        for (int slot = 0; slot &lt; size - 1; ++slot) {
+            int smallest = slot;
+            for (int check = slot + 1; check &lt; size; ++check) { // inner loop
+                if (_comparator.compare(list.get(check), list.get(smallest)) &lt; 0) {
+                    smallest = check;
+                }
+            }
+            swap(list, smallest, slot);
+        }
+        return list;
+
+    }
+
+    private void swap(List list, int left, int right) {
+        if (left == right) {
+            return;
+        }
+        Object temp = list.get(left);
+        list.set(left, list.get(right));
+        list.set(right, temp);
+    }
+}
+
+</code></pre>
+
+
+</body>
+</html>
+
