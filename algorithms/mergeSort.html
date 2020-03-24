@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Merge Sort</title>
+</head>
+<body>
+<h1>
+	Merge Sort
+</h1>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package iteration;
+
+public interface Iterable {
+    public Iterator iterator();
+}
+
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+import iteration.Iterable;
+
+public interface List extends Iterable {
+    public void insert(int index, Object value)
+            throws IndexOutOfBoundsException;
+    public void add(Object value);
+    public Object delete(int index) throws IndexOutOfBoundsException;
+    public boolean delete(Object value);
+    public void clear();
+    public Object set(int index, Object value)
+            throws IndexOutOfBoundsException;
+    public Object get(int index) throws IndexOutOfBoundsException;
+    public int indexOf(Object value);
+    public boolean contains(Object value);
+    public int size();
+    public boolean isEmpty();
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package sorting;
+
+import dataStructures.List;
+
+public interface ListSorter {
+    public List sort(List list);
+}
+</code></pre>
+
+<<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>public class ArrayIterator implements Iterator {
+    private final Object[] _array;
+    private final int _first;
+    private final int _last;
+    private int _current = -1;
+
+    public ArrayIterator(Object[] array, int start, int length) {
+        assert array != null : &quot;array can&#8217;t be null&quot;;
+        assert start &gt;= 0 : &quot;start can&#8217;t be &lt; 0&quot;;
+        assert start &lt; array.length : &quot;start can&#8217;t be &gt; array.length&quot;;
+        assert length &gt;= 0 : &quot;length can&#8217;t be &lt; 0&quot;;
+        _array = array;
+        _first = start;
+        _last = start + length - 1;
+        assert _last &lt; array.length : &quot;start + length can&#8217;t be &gt; array.length&quot;;
+    }
+
+    public ArrayIterator(Object[] array) {
+        assert array != null : &quot;array can&#8217;t be null&quot;;
+        _array = array;
+        _first = 0;
+        _last = array.length - 1;
+    }
+
+    public void first() {
+        _current = _first;
+    }
+
+    public void last() {
+        _current = _last;
+    }
+
+    public void next() {
+        ++_current;
+    }
+
+    public void previous() {
+        --_current;
+    }
+
+    public boolean isDone() {
+        return _current &lt; _first &#124;&#124; _current &gt; _last;
+    }
+
+    public Object current() throws IteratorOutOfBoundsException {
+        if (isDone()) {
+            throw new IteratorOutOfBoundsException();
+        }
+        return _array[_current];
+    }
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package iteration;
+
+public class IteratorOutOfBoundsException extends RuntimeException {
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package sorting;
+
+import dataStructures.ArrayList;
+import dataStructures.List;
+import iteration.Iterator;
+
+public class MergesortListSorter implements ListSorter {
+    private final Comparator _comparator;
+
+    public MergesortListSorter(Comparator comparator) {
+        assert comparator != null : &quot;comparator cannot be null&quot;;
+        _comparator = comparator;
+    }
+
+    public List sort(List list) {
+        assert list != null : &quot;list cannot be null&quot;;
+        return mergesort(list, 0, list.size() - 1);
+    }
+
+    private List mergesort(List list, int startIndex, int endIndex) {
+        if (startIndex == endIndex) {
+            List result = new ArrayList();
+            result.add(list.get(startIndex));
+            return result;
+        }
+        int splitIndex = startIndex + (endIndex - startIndex) / 2;
+        List left = mergesort(list, startIndex, splitIndex);
+        List right = mergesort(list, splitIndex + 1, endIndex);
+        return merge(left, right);
+    }
+
+    private List merge(List left, List right) {
+        List result = new ArrayList();
+        Iterator l = left.iterator();
+        Iterator r = right.iterator();
+        l.first();
+        r.first();
+        while (!(l.isDone() &amp;&amp; r.isDone())) {
+            if (l.isDone()) {
+                result.add(r.current());
+                r.next();
+            } else if (r.isDone()) {
+                result.add(l.current());
+                l.next();
+            } else if (_comparator.compare(l.current(), r.current()) &lt;= 0) {
+                result.add(l.current());
+                l.next();
+            } else {
+                result.add(r.current());
+                r.next();
+            }
+        }
+        return result;
+    }
+}
+</code></pre>
+</body>
+</html>

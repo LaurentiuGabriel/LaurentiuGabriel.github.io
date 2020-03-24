@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FIFO Queue</title>
+</head>
+<body>
+<h1>
+	FIFO Queue
+</h1>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+public interface Queue {
+    public void enqueue(Object value);
+    public Object dequeue() throws EmptyQueueException;
+    public void clear();
+    public int size();
+    public boolean isEmpty();
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+public class ListFifoQueue implements Queue {
+    private final List _list;
+
+    public ListFifoQueue(List list) {
+        assert list != null : &quot;list can&#8217;t be null&quot;;
+        _list = list;
+    }
+
+    public ListFifoQueue() {
+        this(new LinkedList());
+    }
+
+    public void enqueue(Object value) {
+        _list.add(value);
+    }
+
+    public Object dequeue() throws EmptyQueueException {
+        if (isEmpty()) {
+            throw new EmptyQueueException();
+        }
+        return _list.delete(0);
+    }
+
+    public void clear() {
+        _list.clear();
+    }
+
+    public int size() {
+        return _list.size();
+    }
+
+    public boolean isEmpty() {
+        return _list.isEmpty();
+    }
+}
+
+</code></pre>
+
+
+</body>
+</html>

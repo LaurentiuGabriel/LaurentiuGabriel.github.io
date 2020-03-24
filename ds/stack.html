@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stack</title>
+</head>
+<body>
+<h1>
+	Stack
+</h1>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+public interface Queue {
+    public void enqueue(Object value);
+    public Object dequeue() throws EmptyQueueException;
+    public void clear();
+    public int size();
+    public boolean isEmpty();
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+public interface Stack extends Queue {
+    public void push(Object value);
+    public Object pop() throws EmptyStackException;
+    public Object peek() throws EmptyStackException;
+    public void clear();
+    public int size();
+    public boolean isEmpty();
+}
+
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+public class ListStack implements Stack {
+    private final List _list = new LinkedList();
+
+    public void push(Object value) {
+        _list.add(value);
+    }
+
+    public void enqueue(Object value) {
+        push(value);
+    }
+
+    public Object pop() throws EmptyStackException {
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+        return _list.delete(_list.size() - 1);
+    }
+
+    public Object dequeue() throws EmptyQueueException {
+        try {
+            return pop();
+        } catch (EmptyStackException e) {
+            throw new EmptyQueueException();
+        }
+    }
+
+    public Object peek() throws EmptyStackException {
+        Object result = pop();
+        push(result);
+        return result;
+    }
+
+    public void clear() {
+        _list.clear();
+    }
+
+    public int size() {
+        return _list.size();
+    }
+
+    public boolean isEmpty() {
+        return _list.isEmpty();
+    }
+}
+
+</code></pre>
+
+</body>
+</html>

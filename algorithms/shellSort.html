@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shell Sort</title>
+</head>
+<body>
+<h1>
+    Shell Sort
+</h1>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package iteration;
+
+public interface Iterable {
+    public Iterator iterator();
+}
+
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+import iteration.Iterable;
+
+public interface List extends Iterable {
+    public void insert(int index, Object value)
+            throws IndexOutOfBoundsException;
+    public void add(Object value);
+    public Object delete(int index) throws IndexOutOfBoundsException;
+    public boolean delete(Object value);
+    public void clear();
+    public Object set(int index, Object value)
+            throws IndexOutOfBoundsException;
+    public Object get(int index) throws IndexOutOfBoundsException;
+    public int indexOf(Object value);
+    public boolean contains(Object value);
+    public int size();
+    public boolean isEmpty();
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package sorting;
+
+import dataStructures.List;
+
+public interface ListSorter {
+    public List sort(List list);
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package sorting;
+
+import dataStructures.List;
+
+public class ShellsortListSorter implements ListSorter {
+    private final Comparator _comparator;
+    private final int[] _increments = {121, 40, 13, 4, 1};
+
+    public ShellsortListSorter(Comparator comparator) {
+        assert comparator != null : &quot;comparator cannot be null&quot;;
+        _comparator = comparator;
+    }
+
+    public List sort(List list) {
+        assert list != null : &quot;list cannot be null&quot;;
+        for (int i = 0; i &lt; _increments.length; i++) {
+            int increment = _increments[i];
+            hSort(list, increment);
+        }
+        return list;
+    }
+
+    private void hSort(List list, int increment) {
+        if (list.size() &lt; (increment * 2)) {
+            return;
+        }
+        for (int i = 0; i &lt; increment; ++i) {
+            sortSublist(list, i, increment);
+        }
+    }
+
+    private void sortSublist(List list, int startIndex, int increment) {
+        for (int i = startIndex + increment; i &lt; list.size(); i += increment) {
+            Object value = list.get(i);
+            int j;
+            for (j = i; j &gt; startIndex; j -= increment) {
+                Object previousValue = list.get(j - increment);
+                if (_comparator.compare(value, previousValue) &gt;= 0) {
+                    break;
+                }
+                list.set(j, previousValue);
+            }
+            list.set(j, value);
+        }
+    }
+}
+
+</code></pre>
+
+</body>
+</html>
+
