@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Priority Queue</title>
+</head>
+<body>
+<h1>
+	Priority Queue
+</h1>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+public interface Queue {
+    public void enqueue(Object value);
+    public Object dequeue() throws EmptyQueueException;
+    public void clear();
+    public int size();
+    public boolean isEmpty();
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package sorting;
+
+public interface Comparator {
+    public int compare(Object left, Object right);
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+import sorting.Comparator;
+
+public class SortedListPriorityQueue implements Queue {
+    private final List _list;
+    private final Comparator _comparator;
+
+    public SortedListPriorityQueue(Comparator comparator) {
+        assert comparator != null : &quot;comparator cannot be null&quot;;
+        _comparator = comparator;_list = new LinkedList();
+    }
+
+    public void enqueue(Object value) {
+        int pos = _list.size();
+        while (pos &gt; 0 &amp;&amp; _comparator.compare(_list.get(pos - 1), value) &gt; 0) {
+            --pos;
+        }
+        _list.insert(pos, value);
+    }
+
+    public Object dequeue() throws EmptyQueueException {
+        if (isEmpty()) {
+            throw new EmptyQueueException();
+        }
+        return _list.delete(_list.size() - 1);
+    }
+
+    public void clear() {
+        _list.clear();
+    }
+
+    public int size() {
+        return _list.size();
+    }
+
+    public boolean isEmpty() {
+        return _list.isEmpty();
+    }
+}
+
+</code></pre>
+
+
+</body>
+</html>

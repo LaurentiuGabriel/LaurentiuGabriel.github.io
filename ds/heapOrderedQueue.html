@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Heap Ordered Queue</title>
+</head>
+<body>
+<h1>
+	Heap Ordered Queue
+</h1>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+public interface Queue {
+    public void enqueue(Object value);
+    public Object dequeue() throws EmptyQueueException;
+    public void clear();
+    public int size();
+    public boolean isEmpty();
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package sorting;
+
+public interface Comparator {
+    public int compare(Object left, Object right);
+}
+</code></pre>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>package dataStructures;
+
+import sorting.Comparator;
+
+public class HeapOrderedListPriorityQueue implements Queue {
+    private final List _list;
+    private final Comparator _comparator;
+    public HeapOrderedListPriorityQueue(Comparator comparator) {
+        assert comparator != null : &quot;comparator cannot be null&quot;;
+        _comparator = comparator;_list = new ArrayList();
+    }
+
+    public void enqueue(Object value) {
+        _list.add(value);
+        swim(_list.size() - 1);
+    }
+
+    private void swim(int index) {
+        if (index == 0) {return;}
+        int parent = (index - 1) / 2;
+        if (_comparator.compare(_list.get(index), _list.get(parent)) &gt; 0) {
+            swap(index, parent);
+            swim(parent);
+            }
+    }
+
+    private void swap(int index1, int index2) {
+        Object temp = _list.get(index1);
+        _list.set(index1, _list.get(index2));
+        _list.set(index2, temp);
+    }
+
+    public Object dequeue() throws EmptyQueueException {
+        if (isEmpty()) {
+            throw new EmptyQueueException();
+        }
+        Object result = _list.get(0);
+        if (_list.size() &gt; 1) {
+            _list.set(0, _list.get(_list.size() - 1));
+            sink(0);}
+        _list.delete(_list.size() - 1);
+        return result;
+    }
+
+    private void sink(int index) {
+        int left = index * 2 + 1;
+        int right = index * 2 + 2;
+        if (left &gt;= _list.size()) {return;}
+        int largestChild = left;
+        if (right &lt; _list.size()) {
+            if (_comparator.compare(_list.get(left), _list.get(right)) &lt; 0) {largestChild = right;
+            }
+        }
+        if (_comparator.compare(_list.get(index), _list.get(largestChild)) &lt; 0) {
+            swap(index, largestChild);
+            sink(largestChild);
+        }
+    }
+
+    public void clear() {
+        _list.clear();
+    }
+
+    public int size() {
+        return _list.size();
+    }
+
+    public boolean isEmpty() {
+        return _list.isEmpty();
+    }
+}
+
+</code></pre>
+
+
+</body>
+</html>
